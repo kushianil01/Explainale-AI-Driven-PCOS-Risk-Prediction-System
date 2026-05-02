@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 import pandas as pd
+from fastapi.middleware.cors import CORSMiddleware
+
 from pcos_app import (
     train_pcos_model,
     categorize_risk,
@@ -8,6 +10,15 @@ from pcos_app import (
 )
 
 app = FastAPI()
+# ✅ ADD THIS RIGHT AFTER app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 model, feature_cols, _, _ = train_pcos_model()
 
